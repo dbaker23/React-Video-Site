@@ -10,10 +10,16 @@ export class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { videos: [] };
+    this.state = { 
+      videos: [],
+      selectedVideo: null
+    };
 
     YTSearch({ key: API_KEY, term: 'starcraft 2' }, ( videos ) => { 
-      this.setState({ videos });
+      this.setState({ 
+        videos: videos,
+        selectedVideo: videos[0]
+       });
     });
     console.log(this.state.videos);
   }
@@ -22,8 +28,10 @@ export class App extends Component {
       <div style={{textAlign:"center"}}>
         <h1>Hello World!</h1>
         <SearchBar />
-        <VideoDetail video={this.state.videos[0]}/>
-        <VideoList videos={this.state.videos} />
+        <VideoDetail video={this.state.selectedVideo}/>
+        <VideoList 
+          onVideoSelect={selectedVideo => this.setState({selectedVideo})} 
+          videos={this.state.videos} />
       </div>
     );
   }
